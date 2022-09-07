@@ -16,5 +16,6 @@ namespace WikiApplication
         {
             InitializeComponent();
         }
+        List<Information> wiki = new List<Information>();
     }
 }
