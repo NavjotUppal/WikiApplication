@@ -1,0 +1,207 @@
+﻿namespace WikiApplication
+{
+    partial class FormWiki
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxName = new System.Windows.Forms.TextBox();
+            this.textBoxDefinition = new System.Windows.Forms.TextBox();
+            this.comboBoxCategory = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButtonLinear = new System.Windows.Forms.RadioButton();
+            this.radioButtonNonLinear = new System.Windows.Forms.RadioButton();
+            this.buttonADD = new System.Windows.Forms.Button();
+            this.buttonDEL = new System.Windows.Forms.Button();
+            this.buttonEDIT = new System.Windows.Forms.Button();
+            this.groupBox1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 31);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 16);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Name";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 63);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(62, 16);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Category";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 104);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(59, 16);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Structure";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(13, 176);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(59, 16);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Defintion";
+            // 
+            // textBoxName
+            // 
+            this.textBoxName.Location = new System.Drawing.Point(90, 31);
+            this.textBoxName.Name = "textBoxName";
+            this.textBoxName.Size = new System.Drawing.Size(203, 22);
+            this.textBoxName.TabIndex = 4;
+            // 
+            // textBoxDefinition
+            // 
+            this.textBoxDefinition.Location = new System.Drawing.Point(90, 176);
+            this.textBoxDefinition.Multiline = true;
+            this.textBoxDefinition.Name = "textBoxDefinition";
+            this.textBoxDefinition.Size = new System.Drawing.Size(203, 194);
+            this.textBoxDefinition.TabIndex = 5;
+            // 
+            // comboBoxCategory
+            // 
+            this.comboBoxCategory.FormattingEnabled = true;
+            this.comboBoxCategory.Location = new System.Drawing.Point(90, 63);
+            this.comboBoxCategory.Name = "comboBoxCategory";
+            this.comboBoxCategory.Size = new System.Drawing.Size(203, 24);
+            this.comboBoxCategory.TabIndex = 6;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.radioButtonNonLinear);
+            this.groupBox1.Controls.Add(this.radioButtonLinear);
+            this.groupBox1.Location = new System.Drawing.Point(90, 93);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(178, 72);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            // 
+            // radioButtonLinear
+            // 
+            this.radioButtonLinear.AutoSize = true;
+            this.radioButtonLinear.Location = new System.Drawing.Point(6, 21);
+            this.radioButtonLinear.Name = "radioButtonLinear";
+            this.radioButtonLinear.Size = new System.Drawing.Size(65, 20);
+            this.radioButtonLinear.TabIndex = 0;
+            this.radioButtonLinear.TabStop = true;
+            this.radioButtonLinear.Text = "Linear";
+            this.radioButtonLinear.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonNonLinear
+            // 
+            this.radioButtonNonLinear.AutoSize = true;
+            this.radioButtonNonLinear.Location = new System.Drawing.Point(6, 47);
+            this.radioButtonNonLinear.Name = "radioButtonNonLinear";
+            this.radioButtonNonLinear.Size = new System.Drawing.Size(94, 20);
+            this.radioButtonNonLinear.TabIndex = 1;
+            this.radioButtonNonLinear.TabStop = true;
+            this.radioButtonNonLinear.Text = "Non-Linear";
+            this.radioButtonNonLinear.UseVisualStyleBackColor = true;
+            // 
+            // buttonADD
+            // 
+            this.buttonADD.Location = new System.Drawing.Point(12, 400);
+            this.buttonADD.Name = "buttonADD";
+            this.buttonADD.Size = new System.Drawing.Size(75, 23);
+            this.buttonADD.TabIndex = 8;
+            this.buttonADD.Text = "ADD";
+            this.buttonADD.UseVisualStyleBackColor = true;
+            // 
+            // buttonDEL
+            // 
+            this.buttonDEL.Location = new System.Drawing.Point(115, 400);
+            this.buttonDEL.Name = "buttonDEL";
+            this.buttonDEL.Size = new System.Drawing.Size(75, 23);
+            this.buttonDEL.TabIndex = 9;
+            this.buttonDEL.Text = "DEL";
+            this.buttonDEL.UseVisualStyleBackColor = true;
+            // 
+            // buttonEDIT
+            // 
+            this.buttonEDIT.Location = new System.Drawing.Point(230, 400);
+            this.buttonEDIT.Name = "buttonEDIT";
+            this.buttonEDIT.Size = new System.Drawing.Size(75, 23);
+            this.buttonEDIT.TabIndex = 10;
+            this.buttonEDIT.Text = "EDIT";
+            this.buttonEDIT.UseVisualStyleBackColor = true;
+            // 
+            // FormWiki
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.buttonEDIT);
+            this.Controls.Add(this.buttonDEL);
+            this.Controls.Add(this.buttonADD);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.comboBoxCategory);
+            this.Controls.Add(this.textBoxDefinition);
+            this.Controls.Add(this.textBoxName);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Name = "FormWiki";
+            this.Text = "Wiki Application";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBoxName;
+        private System.Windows.Forms.TextBox textBoxDefinition;
+        private System.Windows.Forms.ComboBox comboBoxCategory;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton radioButtonNonLinear;
+        private System.Windows.Forms.RadioButton radioButtonLinear;
+        private System.Windows.Forms.Button buttonADD;
+        private System.Windows.Forms.Button buttonDEL;
+        private System.Windows.Forms.Button buttonEDIT;
+    }
+}
+
