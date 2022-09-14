@@ -16,6 +16,17 @@ namespace WikiApplication
         {
             InitializeComponent();
         }
+
+        //6.2 Create a global List<T> of type Information called Wiki.
         List<Information> wiki = new List<Information>();
+
+
+        //6.3 Create a button method to ADD a new item to the list.
+        //Use a TextBox for the Name input, ComboBox for the Category,
+        //Radio group for the Structure and Multiline TextBox for the Definition.
+        private void buttonADD_Click(object sender, EventArgs e)
+        {
+           
+        }
     }
 }

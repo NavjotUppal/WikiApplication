@@ -35,8 +35,8 @@
             this.textBoxDefinition = new System.Windows.Forms.TextBox();
             this.comboBoxCategory = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButtonLinear = new System.Windows.Forms.RadioButton();
             this.radioButtonNonLinear = new System.Windows.Forms.RadioButton();
+            this.radioButtonLinear = new System.Windows.Forms.RadioButton();
             this.buttonADD = new System.Windows.Forms.Button();
             this.buttonDEL = new System.Windows.Forms.Button();
             this.buttonEDIT = new System.Windows.Forms.Button();
@@ -111,17 +111,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Structure";
             // 
-            // radioButtonLinear
-            // 
-            this.radioButtonLinear.AutoSize = true;
-            this.radioButtonLinear.Location = new System.Drawing.Point(74, 21);
-            this.radioButtonLinear.Name = "radioButtonLinear";
-            this.radioButtonLinear.Size = new System.Drawing.Size(65, 20);
-            this.radioButtonLinear.TabIndex = 0;
-            this.radioButtonLinear.TabStop = true;
-            this.radioButtonLinear.Text = "Linear";
-            this.radioButtonLinear.UseVisualStyleBackColor = true;
-            // 
             // radioButtonNonLinear
             // 
             this.radioButtonNonLinear.AutoSize = true;
@@ -133,6 +122,17 @@
             this.radioButtonNonLinear.Text = "Non-Linear";
             this.radioButtonNonLinear.UseVisualStyleBackColor = true;
             // 
+            // radioButtonLinear
+            // 
+            this.radioButtonLinear.AutoSize = true;
+            this.radioButtonLinear.Location = new System.Drawing.Point(74, 21);
+            this.radioButtonLinear.Name = "radioButtonLinear";
+            this.radioButtonLinear.Size = new System.Drawing.Size(65, 20);
+            this.radioButtonLinear.TabIndex = 0;
+            this.radioButtonLinear.TabStop = true;
+            this.radioButtonLinear.Text = "Linear";
+            this.radioButtonLinear.UseVisualStyleBackColor = true;
+            // 
             // buttonADD
             // 
             this.buttonADD.Location = new System.Drawing.Point(12, 400);
@@ -141,6 +141,7 @@
             this.buttonADD.TabIndex = 8;
             this.buttonADD.Text = "ADD";
             this.buttonADD.UseVisualStyleBackColor = true;
+            this.buttonADD.Click += new System.EventHandler(this.buttonADD_Click);
             // 
             // buttonDEL
             // 
