@@ -50,9 +50,9 @@ namespace WikiApplication
             this.definition = definition;
         }
 
-        public int CompareTo(Information other)
+        public int CompareTo(Information comapreName)
         {
-           throw new NotImplementedException();
+           return name.CompareTo(comapreName.name);
         }
     }
 }

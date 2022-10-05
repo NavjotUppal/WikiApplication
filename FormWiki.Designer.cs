@@ -34,7 +34,7 @@
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.textBoxDefinition = new System.Windows.Forms.TextBox();
             this.comboBoxCategory = new System.Windows.Forms.ComboBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBoxStructure = new System.Windows.Forms.GroupBox();
             this.radioButtonNonLinear = new System.Windows.Forms.RadioButton();
             this.radioButtonLinear = new System.Windows.Forms.RadioButton();
             this.buttonADD = new System.Windows.Forms.Button();
@@ -42,12 +42,12 @@
             this.buttonEDIT = new System.Windows.Forms.Button();
             this.buttonLOAD = new System.Windows.Forms.Button();
             this.buttonSAVE = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.listViewData = new System.Windows.Forms.ListView();
             this.NAME = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CATEGORY = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.buttonSEARCH = new System.Windows.Forms.Button();
             this.textBoxSEARCH = new System.Windows.Forms.TextBox();
-            this.groupBox1.SuspendLayout();
+            this.groupBoxStructure.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -95,21 +95,30 @@
             // comboBoxCategory
             // 
             this.comboBoxCategory.FormattingEnabled = true;
+            this.comboBoxCategory.Items.AddRange(new object[] {
+            "-Select-",
+            "Abstract",
+            "Array",
+            "Graphs",
+            "Hash",
+            "List",
+            "Tree"});
             this.comboBoxCategory.Location = new System.Drawing.Point(90, 63);
             this.comboBoxCategory.Name = "comboBoxCategory";
             this.comboBoxCategory.Size = new System.Drawing.Size(203, 24);
+            this.comboBoxCategory.Sorted = true;
             this.comboBoxCategory.TabIndex = 6;
             // 
-            // groupBox1
+            // groupBoxStructure
             // 
-            this.groupBox1.Controls.Add(this.radioButtonNonLinear);
-            this.groupBox1.Controls.Add(this.radioButtonLinear);
-            this.groupBox1.Location = new System.Drawing.Point(16, 107);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(306, 58);
-            this.groupBox1.TabIndex = 7;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Structure";
+            this.groupBoxStructure.Controls.Add(this.radioButtonNonLinear);
+            this.groupBoxStructure.Controls.Add(this.radioButtonLinear);
+            this.groupBoxStructure.Location = new System.Drawing.Point(16, 107);
+            this.groupBoxStructure.Name = "groupBoxStructure";
+            this.groupBoxStructure.Size = new System.Drawing.Size(306, 58);
+            this.groupBoxStructure.TabIndex = 7;
+            this.groupBoxStructure.TabStop = false;
+            this.groupBoxStructure.Text = "Structure";
             // 
             // radioButtonNonLinear
             // 
@@ -179,18 +188,18 @@
             this.buttonSAVE.Text = "SAVE";
             this.buttonSAVE.UseVisualStyleBackColor = true;
             // 
-            // listView1
+            // listViewData
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listViewData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.NAME,
             this.CATEGORY});
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(423, 63);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(315, 316);
-            this.listView1.TabIndex = 13;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.listViewData.HideSelection = false;
+            this.listViewData.Location = new System.Drawing.Point(423, 63);
+            this.listViewData.Name = "listViewData";
+            this.listViewData.Size = new System.Drawing.Size(315, 316);
+            this.listViewData.TabIndex = 13;
+            this.listViewData.UseCompatibleStateImageBehavior = false;
+            this.listViewData.View = System.Windows.Forms.View.Details;
             // 
             // NAME
             // 
@@ -225,13 +234,13 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.textBoxSEARCH);
             this.Controls.Add(this.buttonSEARCH);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.listViewData);
             this.Controls.Add(this.buttonSAVE);
             this.Controls.Add(this.buttonLOAD);
             this.Controls.Add(this.buttonEDIT);
             this.Controls.Add(this.buttonDEL);
             this.Controls.Add(this.buttonADD);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBoxStructure);
             this.Controls.Add(this.comboBoxCategory);
             this.Controls.Add(this.textBoxDefinition);
             this.Controls.Add(this.textBoxName);
@@ -240,8 +249,8 @@
             this.Controls.Add(this.label1);
             this.Name = "FormWiki";
             this.Text = "Wiki Application";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupBoxStructure.ResumeLayout(false);
+            this.groupBoxStructure.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -255,7 +264,7 @@
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.TextBox textBoxDefinition;
         private System.Windows.Forms.ComboBox comboBoxCategory;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBoxStructure;
         private System.Windows.Forms.RadioButton radioButtonNonLinear;
         private System.Windows.Forms.RadioButton radioButtonLinear;
         private System.Windows.Forms.Button buttonADD;
@@ -263,7 +272,7 @@
         private System.Windows.Forms.Button buttonEDIT;
         private System.Windows.Forms.Button buttonLOAD;
         private System.Windows.Forms.Button buttonSAVE;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView listViewData;
         private System.Windows.Forms.ColumnHeader NAME;
         private System.Windows.Forms.ColumnHeader CATEGORY;
         private System.Windows.Forms.Button buttonSEARCH;

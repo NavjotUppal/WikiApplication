@@ -15,6 +15,7 @@ namespace WikiApplication
         public FormWiki()
         {
             InitializeComponent();
+            comboBoxCategory.SelectedIndex = 0;
         }
 
         //6.2 Create a global List<T> of type Information called Wiki.
@@ -26,7 +27,54 @@ namespace WikiApplication
         //Radio group for the Structure and Multiline TextBox for the Definition.
         private void buttonADD_Click(object sender, EventArgs e)
         {
+            Information info = new Information();
+          info.setName(textBoxName.Text);
+            info.setCategory(comboBoxCategory.Text);
+            info.setStructure(getStructureRadioButton());
+           info.setDefintion(textBoxDefinition.Text);  
+            wiki.Add(info);
+            displayData();
+            resetFields();
+
+        }
+        private void displayData()
+        {
+            listViewData.Items.Clear();
+            wiki.Sort();
+            foreach(Information info in wiki)
+            {
+                ListViewItem lvi = new ListViewItem(info.getName());
+                lvi.SubItems.Add(info.getCategory());
+                listViewData.Items.Add(lvi);
+            }
+        }
+        private void resetFields()
+        {
+            textBoxName.Clear();
+            textBoxDefinition.Clear();
+            comboBoxCategory.SelectedIndex = 0;
+            foreach (RadioButton rb in groupBoxStructure.Controls.OfType<RadioButton>())
+            {
+                rb.Checked = false;
+            }
            
+        }
+        private string getStructureRadioButton()
+        {
+            string rbValue = "";
+            foreach (RadioButton rb in groupBoxStructure.Controls.OfType<RadioButton>())
+            {
+                if (rb.Checked)
+                {
+                    rbValue = rb.Text;
+                    break;
+                }
+                else
+                {
+                    rbValue = "Other";
+                }
+            }
+            return rbValue;
         }
     }
 }
