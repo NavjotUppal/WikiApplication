@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,8 @@ namespace WikiApplication
         public FormWiki()
         {
             InitializeComponent();
-            comboBoxCategory.SelectedIndex = 0;
+            populateComboBox();
+           //comboBoxCategory.SelectedIndex = 0;
         }
 
         //6.2 Create a global List<T> of type Information called Wiki.
@@ -35,6 +37,25 @@ namespace WikiApplication
             wiki.Add(info);
             displayData();
             resetFields();
+
+        }
+        private void populateComboBox()
+        {
+           
+            string[] cat = File.ReadAllLines("Category List.txt");
+            string[] tokens=new string[cat.Length];
+            foreach (string catItem in cat)
+            {
+                tokens=catItem.Split(',');
+               
+            }
+            for(int i=0; i<tokens.Length; i++)
+            {
+                comboBoxCategory.Items.Add(tokens[i]);
+            }
+       
+    comboBoxCategory.SelectedIndex = 0;
+
 
         }
         private void displayData()
