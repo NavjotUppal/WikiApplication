@@ -82,6 +82,73 @@ namespace WikiApplication
                 return true;
             }
         }
+        //6.6 Create two methods to highlight and return the values from the Radio button GroupBox.
+        //The first method must return a string value from the selected radio button (Linear or Non-Linear).
+        //The second method must send an integer index which will highlight an appropriate radio button.
+        private string getStructureRadioButton()
+        {
+            string rbValue = "";
+            foreach (RadioButton rb in groupBoxStructure.Controls.OfType<RadioButton>())
+            {
+                if (rb.Checked)
+                {
+                    rbValue = rb.Text;
+                    break;
+                }
+                else
+                {
+                    rbValue = "Other";
+                }
+            }
+            return rbValue;
+        }
+        private void radioButtonHighlight(int radio)
+        {
+            if (radio == 0)
+            {
+               // Trace.WriteLine("RadioButton = Checked");
+                radioButtonLinear.Checked = true;
+            }
+            else
+            {
+                //Trace.WriteLine("RadioButton = Not Checked");
+                radioButtonNonLinear.Checked = true;
+            }
+        }
+        //6.7 Create a button method that will delete the currently selected record in the ListView.
+        //Ensure the user has the option to backout of this action by using a dialog box.
+        //Display an updated version of the sorted list at the end of this process.
+        private void buttonDEL_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int currentItem = listViewData.SelectedIndices[0];
+                // Trace.WriteLine("Current item index: " + currentItem);
+                if (currentItem >= 0)
+                {
+                    DialogResult delRecord = MessageBox.Show("Do you wish to delete data structure?",
+                     "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (delRecord == DialogResult.Yes)
+                    {
+                        wiki.RemoveAt(currentItem);
+                        wiki.Sort();
+                        resetFields();
+                        displayData();
+                       
+                    }
+                    else
+                    {
+                        MessageBox.Show("Item NOT Deleted", "Delete Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+               // add message
+            }
+        }
         //6.11 Create a ListView event so a user can select a
         //Data Structure Name from the list of Names and
         //the associated information will be displayed in the related text boxes combo box and radio button.
@@ -108,22 +175,7 @@ namespace WikiApplication
             }
            
         }
-        private string getStructureRadioButton()
-        {
-            string rbValue = "";
-            foreach (RadioButton rb in groupBoxStructure.Controls.OfType<RadioButton>())
-            {
-                if (rb.Checked)
-                {
-                    rbValue = rb.Text;
-                    break;
-                }
-                else
-                {
-                    rbValue = "Other";
-                }
-            }
-            return rbValue;
-        }
+
+       
     }
 }
