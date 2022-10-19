@@ -45,7 +45,7 @@ namespace WikiApplication
         {
             return definition;
         }
-        public void setDefintion(string definition)
+        public void setDefinition(string definition)
         {
             this.definition = definition;
         }

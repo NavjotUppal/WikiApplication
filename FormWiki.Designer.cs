@@ -162,6 +162,7 @@
             this.buttonEDIT.TabIndex = 10;
             this.buttonEDIT.Text = "EDIT";
             this.buttonEDIT.UseVisualStyleBackColor = true;
+            this.buttonEDIT.Click += new System.EventHandler(this.buttonEDIT_Click);
             // 
             // buttonLOAD
             // 

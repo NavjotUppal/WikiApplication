@@ -34,7 +34,7 @@ namespace WikiApplication
                 info.setName(textBoxName.Text);
                 info.setCategory(comboBoxCategory.Text);
                 info.setStructure(getStructureRadioButton());
-                info.setDefintion(textBoxDefinition.Text);
+                info.setDefinition(textBoxDefinition.Text);
                 wiki.Add(info);
                 displayData();
                 resetFields();
@@ -123,7 +123,6 @@ namespace WikiApplication
             try
             {
                 int currentItem = listViewData.SelectedIndices[0];
-                // Trace.WriteLine("Current item index: " + currentItem);
                 if (currentItem >= 0)
                 {
                     DialogResult delRecord = MessageBox.Show("Do you wish to delete data structure?",
@@ -149,10 +148,47 @@ namespace WikiApplication
                // add message
             }
         }
+        //6.8 Create a button method that will save the edited record of the currently selected item in the ListView.
+        //All the changes in the input controls will be written back to the list.
+        //Display an updated version of the sorted list at the end of this process.
+        private void buttonEDIT_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int currentItem = listViewData.SelectedIndices[0];
+                if (currentItem >= 0)
+                // Trace.WriteLine("Item index: " + currentItem);
+                {
+                    var result = MessageBox.Show("Do you wish to continue", "EDIT",
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (result == DialogResult.OK)
+                    {
+                        wiki[currentItem].setName(textBoxName.Text);
+                        wiki[currentItem].setCategory(comboBoxCategory.Text);
+                        wiki[currentItem].setStructure(getStructureRadioButton());
+                        wiki[currentItem].setDefinition(textBoxDefinition.Text);
+                        wiki.Sort();
+                        displayData();
+                        resetFields();
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data Item NOT changed", "MESSAGE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                //add message
+            }
+
+        }
         //6.11 Create a ListView event so a user can select a
         //Data Structure Name from the list of Names and
         //the associated information will be displayed in the related text boxes combo box and radio button.
-        private void displayData()
+            private void displayData()
         {
             listViewData.Items.Clear();
             wiki.Sort();
