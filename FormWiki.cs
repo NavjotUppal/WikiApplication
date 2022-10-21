@@ -379,5 +379,27 @@ namespace WikiApplication
                 MessageBox.Show("File NOT saved", "Save File", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void listViewData_Click(object sender, EventArgs e)
+        {
+            int pos = listViewData.SelectedIndices[0];
+                       displayData(pos);
+        }
+        private void displayData(int pos)
+        {
+            textBoxName.Text=wiki[pos].getName();
+            comboBoxCategory.Text=wiki[pos].getCategory();
+            if (wiki[pos].getStructure() == "Linear")
+            {
+                radioButtonHighlight(0);
+            }
+            else
+            {
+                radioButtonHighlight(1);
+            }
+           
+          textBoxDefinition.Text=  wiki[pos].getDefinition();
+            //add message
+        }
     }
 }

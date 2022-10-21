@@ -197,6 +197,7 @@
             this.listViewData.TabIndex = 13;
             this.listViewData.UseCompatibleStateImageBehavior = false;
             this.listViewData.View = System.Windows.Forms.View.Details;
+            this.listViewData.Click += new System.EventHandler(this.listViewData_Click);
             // 
             // NAME
             // 
