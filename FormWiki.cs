@@ -22,7 +22,7 @@ namespace WikiApplication
 
         //6.2 Create a global List<T> of type Information called Wiki.
         List<Information> wiki = new List<Information>();
-
+        String defaultFileName = "default.bin";
 
         //6.3 Create a button method to ADD a new item to the list.
         //Use a TextBox for the Name input, ComboBox for the Category,
@@ -365,7 +365,19 @@ namespace WikiApplication
             }
 
         }
-
-
+        // 6.15 The Wiki application will save data when the form closes. 
+        private void FormWiki_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult saveRecord = MessageBox.Show("Do you wish to save this file?",
+                "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (saveRecord == DialogResult.Yes)
+            {
+                saveDataFile(defaultFileName);
+            }
+            else
+            {
+                MessageBox.Show("File NOT saved", "Save File", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

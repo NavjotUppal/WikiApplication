@@ -247,6 +247,7 @@
             this.Controls.Add(this.label1);
             this.Name = "FormWiki";
             this.Text = "Wiki Application";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormWiki_FormClosing);
             this.groupBoxStructure.ResumeLayout(false);
             this.groupBoxStructure.PerformLayout();
             this.ResumeLayout(false);
