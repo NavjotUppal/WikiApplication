@@ -83,6 +83,7 @@
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(203, 22);
             this.textBoxName.TabIndex = 4;
+            this.textBoxName.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxName_MouseDoubleClick);
             // 
             // textBoxDefinition
             // 
@@ -172,6 +173,7 @@
             this.buttonLOAD.TabIndex = 11;
             this.buttonLOAD.Text = "LOAD";
             this.buttonLOAD.UseVisualStyleBackColor = true;
+            this.buttonLOAD.Click += new System.EventHandler(this.buttonLOAD_Click);
             // 
             // buttonSAVE
             // 
@@ -181,6 +183,7 @@
             this.buttonSAVE.TabIndex = 12;
             this.buttonSAVE.Text = "SAVE";
             this.buttonSAVE.UseVisualStyleBackColor = true;
+            this.buttonSAVE.Click += new System.EventHandler(this.buttonSAVE_Click);
             // 
             // listViewData
             // 

@@ -136,7 +136,7 @@ namespace WikiApplication
                         wiki.RemoveAt(currentItem);
                         sortWikiData();
                         resetFields();
-                       
+
 
                     }
                     else
@@ -200,16 +200,16 @@ namespace WikiApplication
         {
             if (!string.IsNullOrEmpty(textBoxSEARCH.Text))
             {
-                Information findData=new Information();
+                Information findData = new Information();
                 findData.setName(textBoxSEARCH.Text);
-                int found=wiki.BinarySearch(findData);
+                int found = wiki.BinarySearch(findData);
                 if (found >= 0)
                 {
                     listViewData.Focus();
                     listViewData.Items[found].Selected = true;
                     textBoxName.Text = wiki[found].getName();
                     comboBoxCategory.Text = wiki[found].getCategory();
-                    if(wiki[found].getStructure() == "Linear")
+                    if (wiki[found].getStructure() == "Linear")
                     {
                         radioButtonHighlight(0);
                     }
@@ -255,6 +255,117 @@ namespace WikiApplication
 
         }
 
-        
+
+        //6.13 Create a double click event on the Name TextBox to clear the TextBboxes, ComboBox and Radio button.
+
+        private void textBoxName_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            resetFields();
+            //display message
+        }
+
+        // 6.14 Create two buttons for the manual open and save option;
+        // this must use a dialog box to select a file or rename a saved file.
+        // All Wiki data is stored/retrieved using a binary reader/writer file format.
+
+
+        private void buttonSAVE_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "bin file|=.bin";
+            saveFileDialog.Title = "Save a BIN file";
+            saveFileDialog.InitialDirectory = Application.StartupPath;
+            saveFileDialog.DefaultExt = "bin";
+            string defaultFileName = "default.bin";
+            saveFileDialog.ShowDialog();
+            string fileName = saveFileDialog.FileName;
+            if (saveFileDialog.FileName != "")
+            {
+                saveDataFile(fileName);
+
+            }
+            else
+            {
+                saveDataFile(defaultFileName);
+            }
+
+            resetFields();
+            listViewData.Items.Clear();
+        }
+        private void saveDataFile(string saveFileName)
+        {
+            try
+            {
+                using (Stream stream = File.Open(saveFileName, FileMode.Create))
+                {
+                    using (var writer = new BinaryWriter(stream, Encoding.UTF8, false))
+                    {
+                        foreach (var item in wiki)
+                        {
+                            writer.Write(item.getName());
+                            writer.Write(item.getCategory());
+                            writer.Write(item.getStructure());
+                            writer.Write(item.getDefinition());
+                        }
+                    }
+                }
+            }catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void buttonLOAD_Click(object sender, EventArgs e)
+        {
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Application.StartupPath;
+            openFileDialog.Filter = "BIN FILES|*.bin";
+            openFileDialog.Title = "Open a BIN file";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+                openDataFile(openFileDialog.FileName);
+
+
+            }
+        }
+        private void openDataFile(string openFileName)
+        {
+            try
+            {
+                using (var stream = File.Open(openFileName, FileMode.Open))
+                {
+                    using (var reader = new BinaryReader(stream, Encoding.UTF8, false))
+                    {
+                        //reader.BaseStream.Seek(0, SeekOrigin.Begin);
+                        
+                        wiki.Clear();
+
+                        while (stream.Position < stream.Length)
+                        {
+                            Information openFile = new Information();
+                            openFile.setName(reader.ReadString());
+                            openFile.setCategory(reader.ReadString());
+                            openFile.setStructure(reader.ReadString());
+                            openFile.setDefinition(reader.ReadString());
+                            wiki.Add(openFile);
+
+
+                        }
+
+                        displayData();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+        }
+
+
     }
 }
