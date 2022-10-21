@@ -17,7 +17,7 @@ namespace WikiApplication
         {
             InitializeComponent();
             populateComboBox();
-           
+
         }
 
         //6.2 Create a global List<T> of type Information called Wiki.
@@ -29,16 +29,19 @@ namespace WikiApplication
         //Radio group for the Structure and Multiline TextBox for the Definition.
         private void buttonADD_Click(object sender, EventArgs e)
         {
-            if ((!string.IsNullOrEmpty(textBoxName.Text) && validName(textBoxName.Text))) {
+            if ((!string.IsNullOrEmpty(textBoxName.Text) && validName(textBoxName.Text)))
+            {
                 Information info = new Information();
                 info.setName(textBoxName.Text);
                 info.setCategory(comboBoxCategory.Text);
                 info.setStructure(getStructureRadioButton());
                 info.setDefinition(textBoxDefinition.Text);
                 wiki.Add(info);
-                displayData();
+                sortWikiData();
                 resetFields();
-            } else if (!validName(textBoxName.Text)) {
+            }
+            else if (!validName(textBoxName.Text))
+            {
                 //tool strip message
                 MessageBox.Show("Name already exist");
                 resetFields();
@@ -55,12 +58,12 @@ namespace WikiApplication
         private void populateComboBox()
         {
             string[] cat = File.ReadAllLines("Category List.txt");
-            string[] tokens=new string[cat.Length];
+            string[] tokens = new string[cat.Length];
             foreach (string catItem in cat)
             {
-                tokens=catItem.Split(',');
+                tokens = catItem.Split(',');
             }
-            for(int i=0; i<tokens.Length; i++)
+            for (int i = 0; i < tokens.Length; i++)
             {
                 comboBoxCategory.Items.Add(tokens[i]);
 
@@ -73,7 +76,7 @@ namespace WikiApplication
         //Use the built in List<T> method “Exists” to answer this requirement.
         private bool validName(string checkName)
         {
-            if(wiki.Exists(dup => dup.getName() == checkName))
+            if (wiki.Exists(dup => dup.getName() == checkName))
             {
                 return false;
             }
@@ -106,7 +109,7 @@ namespace WikiApplication
         {
             if (radio == 0)
             {
-               // Trace.WriteLine("RadioButton = Checked");
+                // Trace.WriteLine("RadioButton = Checked");
                 radioButtonLinear.Checked = true;
             }
             else
@@ -131,21 +134,21 @@ namespace WikiApplication
                     if (delRecord == DialogResult.Yes)
                     {
                         wiki.RemoveAt(currentItem);
-                        wiki.Sort();
+                        sortWikiData();
                         resetFields();
-                        displayData();
                        
+
                     }
                     else
                     {
                         MessageBox.Show("Item NOT Deleted", "Delete Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        
+
                     }
                 }
             }
             catch (ArgumentOutOfRangeException)
             {
-               // add message
+                // add message
             }
         }
         //6.8 Create a button method that will save the edited record of the currently selected item in the ListView.
@@ -167,10 +170,8 @@ namespace WikiApplication
                         wiki[currentItem].setCategory(comboBoxCategory.Text);
                         wiki[currentItem].setStructure(getStructureRadioButton());
                         wiki[currentItem].setDefinition(textBoxDefinition.Text);
-                        wiki.Sort();
-                        displayData();
+                        sortWikiData();
                         resetFields();
-
                     }
                     else
                     {
@@ -185,21 +186,63 @@ namespace WikiApplication
             }
 
         }
+        //6.9 Create a single custom method that will sort and
+        //then display the Name and Category from the wiki information in the list.
+        private void sortWikiData()
+        {
+            wiki.Sort();
+            displayData();
+        }
+        //6.10 Create a button method that will use the builtin binary search to find a Data Structure name.
+        //If the record is found the associated details will populate the appropriate input controls and highlight the name in the ListView.
+        //At the end of the search process the search input TextBox must be cleared.
+        private void buttonSEARCH_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textBoxSEARCH.Text))
+            {
+                Information findData=new Information();
+                findData.setName(textBoxSEARCH.Text);
+                int found=wiki.BinarySearch(findData);
+                if (found >= 0)
+                {
+                    listViewData.Focus();
+                    listViewData.Items[found].Selected = true;
+                    textBoxName.Text = wiki[found].getName();
+                    comboBoxCategory.Text = wiki[found].getCategory();
+                    if(wiki[found].getStructure() == "Linear")
+                    {
+                        radioButtonHighlight(0);
+                    }
+                    else
+                    {
+                        radioButtonHighlight(1);
+                    }
+                    textBoxDefinition.Text = wiki[found].getDefinition();
+                }
+                else
+                {
+                    MessageBox.Show("Not Found");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please input a name to search for in the current wiki records.");
+            }
+        }
         //6.11 Create a ListView event so a user can select a
         //Data Structure Name from the list of Names and
         //the associated information will be displayed in the related text boxes combo box and radio button.
-            private void displayData()
+        private void displayData()
         {
             listViewData.Items.Clear();
-            wiki.Sort();
-            foreach(Information info in wiki)
+            foreach (Information info in wiki)
             {
                 ListViewItem lvi = new ListViewItem(info.getName());
                 lvi.SubItems.Add(info.getCategory());
                 listViewData.Items.Add(lvi);
             }
         }
-       // 6.12 Create a custom method that will clear and reset the TextBoxes, ComboBox and Radio button
+        // 6.12 Create a custom method that will clear and reset the TextBoxes, ComboBox and Radio button
         private void resetFields()
         {
             textBoxName.Clear();
@@ -209,9 +252,9 @@ namespace WikiApplication
             {
                 rb.Checked = false;
             }
-           
+
         }
 
-       
+        
     }
 }
