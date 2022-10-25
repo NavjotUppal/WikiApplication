@@ -84,7 +84,7 @@ namespace WikiApplication
             }
             catch (ArgumentOutOfRangeException E)
             {
-                MessageBox.Show("Exception Occured" + E.Message);
+                MessageBox.Show(E.ToString(),"Exception Occured");
             }
         }
         //6.8 Create a button method that will save the edited record of the currently selected item in the ListView.
@@ -118,7 +118,7 @@ namespace WikiApplication
             }
             catch (ArgumentOutOfRangeException E)
             {
-                MessageBox.Show("Exception Occured" + E.Message);
+                MessageBox.Show(E.ToString(),"Exception Occured");
             }
 
         }
