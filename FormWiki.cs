@@ -16,10 +16,10 @@ namespace WikiApplication
         public FormWiki()
         {
             InitializeComponent();
-            populateComboBox();
+            populateComboBox(); // Populate the combo box on form load
 
         }
-
+        #region ADD/EDIT/DEL
         //6.2 Create a global List<T> of type Information called Wiki.
         List<Information> wiki = new List<Information>();
         String defaultFileName = "default.bin";
@@ -39,19 +39,251 @@ namespace WikiApplication
                 wiki.Add(info);
                 sortWikiData();
                 resetFields();
+                toolStripStatusLabel.Text = textBoxName.Text + " Data Structure is added to the list.";
             }
             else if (!validName(textBoxName.Text))
             {
-                //tool strip message
+                toolStripStatusLabel.Text = textBoxName.Text + " already exist in the Data Structure list.";
                 MessageBox.Show("Name already exist");
                 resetFields();
             }
             else
             {
-                //tool strip message
+                toolStripStatusLabel.Text = "Please enter the correct data.";
             }
 
         }
+       
+        //6.7 Create a button method that will delete the currently selected record in the ListView.
+        //Ensure the user has the option to backout of this action by using a dialog box.
+        //Display an updated version of the sorted list at the end of this process.
+        private void buttonDEL_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int currentItem = listViewData.SelectedIndices[0];
+                if (currentItem >= 0)
+                {
+                    DialogResult delRecord = MessageBox.Show("Do you wish to delete data structure?",
+                     "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (delRecord == DialogResult.Yes)
+                    {
+                        wiki.RemoveAt(currentItem);
+                        sortWikiData();
+                        resetFields();
+
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Item NOT Deleted", "CAUTION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException E)
+            {
+                MessageBox.Show("Exception Occured" + E.Message);
+            }
+        }
+        //6.8 Create a button method that will save the edited record of the currently selected item in the ListView.
+        //All the changes in the input controls will be written back to the list.
+        //Display an updated version of the sorted list at the end of this process.
+        private void buttonEDIT_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int currentItem = listViewData.SelectedIndices[0];
+                if (currentItem >= 0)
+                {
+                    var result = MessageBox.Show("Do you wish to continue", "EDIT",
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (result == DialogResult.OK)
+                    {
+                        wiki[currentItem].setName(textBoxName.Text);
+                        wiki[currentItem].setCategory(comboBoxCategory.Text);
+                        wiki[currentItem].setStructure(getStructureRadioButton());
+                        wiki[currentItem].setDefinition(textBoxDefinition.Text);
+                        sortWikiData();
+                        resetFields();
+                        toolStripStatusLabel.Text = textBoxName.Text+" is Edited.";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data Item NOT changed", "MESSAGE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException E)
+            {
+                MessageBox.Show("Exception Occured" + E.Message);
+            }
+
+        }
+        #endregion ADD/EDIT/DEL
+        #region SORT/SEARCH
+        //6.9 Create a single custom method that will sort and
+        //then display the Name and Category from the wiki information in the list.
+        private void sortWikiData()
+        {
+            wiki.Sort();
+            displayData();
+        }
+        //6.10 Create a button method that will use the builtin binary search to find a Data Structure name.
+        //If the record is found the associated details will populate the appropriate input controls and highlight the name in the ListView.
+        //At the end of the search process the search input TextBox must be cleared.
+        private void buttonSEARCH_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textBoxSEARCH.Text))
+            {
+                Information findData = new Information();
+                findData.setName(textBoxSEARCH.Text);
+                int found = wiki.BinarySearch(findData);
+                if (found >= 0)
+                {
+                    listViewData.Focus();
+                    listViewData.Items[found].Selected = true;
+                    textBoxName.Text = wiki[found].getName();
+                    comboBoxCategory.Text = wiki[found].getCategory();
+                    if (wiki[found].getStructure() == "Linear")
+                    {
+                        radioButtonHighlight(0);
+                    }
+                    else
+                    {
+                        radioButtonHighlight(1);
+                    }
+                    textBoxDefinition.Text = wiki[found].getDefinition();
+                }
+                else
+                {
+                    MessageBox.Show(textBoxSEARCH+ " Not Found");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please input a name to search for in the current wiki records.");
+            }
+        }
+        #endregion SORT/SEARCH
+        #region OPEN/SAVE
+        // 6.14 Create two buttons for the manual open and save option;
+        // this must use a dialog box to select a file or rename a saved file.
+        // All Wiki data is stored/retrieved using a binary reader/writer file format.
+
+
+        private void buttonSAVE_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "bin file|=.bin";
+            saveFileDialog.Title = "Save a BIN file";
+            saveFileDialog.InitialDirectory = Application.StartupPath;
+            saveFileDialog.DefaultExt = "bin";
+            string defaultFileName = "default.bin";
+            saveFileDialog.ShowDialog();
+            string fileName = saveFileDialog.FileName;
+            if (saveFileDialog.FileName != "")
+            {
+                saveDataFile(fileName);
+                toolStripStatusLabel.Text = fileName + " has been saved.";
+            }
+            else
+            {
+                saveDataFile(defaultFileName);
+                toolStripStatusLabel.Text = defaultFileName+" has been saved.";
+            }
+
+            resetFields();
+            listViewData.Items.Clear();
+        }
+        private void saveDataFile(string saveFileName)
+        {
+            try
+            {
+                using (Stream stream = File.Open(saveFileName, FileMode.Create))
+                {
+                    using (var writer = new BinaryWriter(stream, Encoding.UTF8, false))
+                    {
+                        foreach (var item in wiki)
+                        {
+                            writer.Write(item.getName());
+                            writer.Write(item.getCategory());
+                            writer.Write(item.getStructure());
+                            writer.Write(item.getDefinition());
+                        }
+                    }
+                }
+            }catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void buttonLOAD_Click(object sender, EventArgs e)
+        {
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Application.StartupPath;
+            openFileDialog.Filter = "BIN FILES|*.bin";
+            openFileDialog.Title = "Open a BIN file";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+                openDataFile(openFileDialog.FileName);
+                toolStripStatusLabel.Text=openFileDialog.FileName+" has been loaded.";
+
+            }
+        }
+        private void openDataFile(string openFileName)
+        {
+            try
+            {
+                using (var stream = File.Open(openFileName, FileMode.Open))
+                {
+                    using (var reader = new BinaryReader(stream, Encoding.UTF8, false))
+                    {                       
+                        wiki.Clear();
+
+                        while (stream.Position < stream.Length)
+                        {
+                            Information openFile = new Information();
+                            openFile.setName(reader.ReadString());
+                            openFile.setCategory(reader.ReadString());
+                            openFile.setStructure(reader.ReadString());
+                            openFile.setDefinition(reader.ReadString());
+                            wiki.Add(openFile);
+
+                        }
+
+                        displayData();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+        }
+        // 6.15 The Wiki application will save data when the form closes. 
+        private void FormWiki_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult saveRecord = MessageBox.Show("Do you wish to save this file?",
+                "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (saveRecord == DialogResult.Yes)
+            {
+                saveDataFile(defaultFileName);
+            }
+            else
+            {
+                MessageBox.Show("File NOT saved", "Save File", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion OPEN/SAVE
+        #region UTILITIES
         //6.4 Create a custom method to populate the
         //ComboBox when the Form Load method is called.
         //The six categories must be read from a simple text file.
@@ -109,124 +341,11 @@ namespace WikiApplication
         {
             if (radio == 0)
             {
-                // Trace.WriteLine("RadioButton = Checked");
                 radioButtonLinear.Checked = true;
             }
             else
             {
-                //Trace.WriteLine("RadioButton = Not Checked");
                 radioButtonNonLinear.Checked = true;
-            }
-        }
-        //6.7 Create a button method that will delete the currently selected record in the ListView.
-        //Ensure the user has the option to backout of this action by using a dialog box.
-        //Display an updated version of the sorted list at the end of this process.
-        private void buttonDEL_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                int currentItem = listViewData.SelectedIndices[0];
-                if (currentItem >= 0)
-                {
-                    DialogResult delRecord = MessageBox.Show("Do you wish to delete data structure?",
-                     "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (delRecord == DialogResult.Yes)
-                    {
-                        wiki.RemoveAt(currentItem);
-                        sortWikiData();
-                        resetFields();
-
-
-                    }
-                    else
-                    {
-                        MessageBox.Show("Item NOT Deleted", "Delete Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                    }
-                }
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                // add message
-            }
-        }
-        //6.8 Create a button method that will save the edited record of the currently selected item in the ListView.
-        //All the changes in the input controls will be written back to the list.
-        //Display an updated version of the sorted list at the end of this process.
-        private void buttonEDIT_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                int currentItem = listViewData.SelectedIndices[0];
-                if (currentItem >= 0)
-                // Trace.WriteLine("Item index: " + currentItem);
-                {
-                    var result = MessageBox.Show("Do you wish to continue", "EDIT",
-                        MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                    if (result == DialogResult.OK)
-                    {
-                        wiki[currentItem].setName(textBoxName.Text);
-                        wiki[currentItem].setCategory(comboBoxCategory.Text);
-                        wiki[currentItem].setStructure(getStructureRadioButton());
-                        wiki[currentItem].setDefinition(textBoxDefinition.Text);
-                        sortWikiData();
-                        resetFields();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Data Item NOT changed", "MESSAGE", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                    }
-                }
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                //add message
-            }
-
-        }
-        //6.9 Create a single custom method that will sort and
-        //then display the Name and Category from the wiki information in the list.
-        private void sortWikiData()
-        {
-            wiki.Sort();
-            displayData();
-        }
-        //6.10 Create a button method that will use the builtin binary search to find a Data Structure name.
-        //If the record is found the associated details will populate the appropriate input controls and highlight the name in the ListView.
-        //At the end of the search process the search input TextBox must be cleared.
-        private void buttonSEARCH_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(textBoxSEARCH.Text))
-            {
-                Information findData = new Information();
-                findData.setName(textBoxSEARCH.Text);
-                int found = wiki.BinarySearch(findData);
-                if (found >= 0)
-                {
-                    listViewData.Focus();
-                    listViewData.Items[found].Selected = true;
-                    textBoxName.Text = wiki[found].getName();
-                    comboBoxCategory.Text = wiki[found].getCategory();
-                    if (wiki[found].getStructure() == "Linear")
-                    {
-                        radioButtonHighlight(0);
-                    }
-                    else
-                    {
-                        radioButtonHighlight(1);
-                    }
-                    textBoxDefinition.Text = wiki[found].getDefinition();
-                }
-                else
-                {
-                    MessageBox.Show("Not Found");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Please input a name to search for in the current wiki records.");
             }
         }
         //6.11 Create a ListView event so a user can select a
@@ -261,125 +380,8 @@ namespace WikiApplication
         private void textBoxName_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             resetFields();
-            //display message
+            toolStripStatusLabel.Text = "Form has been reset.";
         }
-
-        // 6.14 Create two buttons for the manual open and save option;
-        // this must use a dialog box to select a file or rename a saved file.
-        // All Wiki data is stored/retrieved using a binary reader/writer file format.
-
-
-        private void buttonSAVE_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "bin file|=.bin";
-            saveFileDialog.Title = "Save a BIN file";
-            saveFileDialog.InitialDirectory = Application.StartupPath;
-            saveFileDialog.DefaultExt = "bin";
-            string defaultFileName = "default.bin";
-            saveFileDialog.ShowDialog();
-            string fileName = saveFileDialog.FileName;
-            if (saveFileDialog.FileName != "")
-            {
-                saveDataFile(fileName);
-
-            }
-            else
-            {
-                saveDataFile(defaultFileName);
-            }
-
-            resetFields();
-            listViewData.Items.Clear();
-        }
-        private void saveDataFile(string saveFileName)
-        {
-            try
-            {
-                using (Stream stream = File.Open(saveFileName, FileMode.Create))
-                {
-                    using (var writer = new BinaryWriter(stream, Encoding.UTF8, false))
-                    {
-                        foreach (var item in wiki)
-                        {
-                            writer.Write(item.getName());
-                            writer.Write(item.getCategory());
-                            writer.Write(item.getStructure());
-                            writer.Write(item.getDefinition());
-                        }
-                    }
-                }
-            }catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void buttonLOAD_Click(object sender, EventArgs e)
-        {
-
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.InitialDirectory = Application.StartupPath;
-            openFileDialog.Filter = "BIN FILES|*.bin";
-            openFileDialog.Title = "Open a BIN file";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-
-                openDataFile(openFileDialog.FileName);
-
-
-            }
-        }
-        private void openDataFile(string openFileName)
-        {
-            try
-            {
-                using (var stream = File.Open(openFileName, FileMode.Open))
-                {
-                    using (var reader = new BinaryReader(stream, Encoding.UTF8, false))
-                    {
-                        //reader.BaseStream.Seek(0, SeekOrigin.Begin);
-                        
-                        wiki.Clear();
-
-                        while (stream.Position < stream.Length)
-                        {
-                            Information openFile = new Information();
-                            openFile.setName(reader.ReadString());
-                            openFile.setCategory(reader.ReadString());
-                            openFile.setStructure(reader.ReadString());
-                            openFile.setDefinition(reader.ReadString());
-                            wiki.Add(openFile);
-
-
-                        }
-
-                        displayData();
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-
-        }
-        // 6.15 The Wiki application will save data when the form closes. 
-        private void FormWiki_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            DialogResult saveRecord = MessageBox.Show("Do you wish to save this file?",
-                "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (saveRecord == DialogResult.Yes)
-            {
-                saveDataFile(defaultFileName);
-            }
-            else
-            {
-                MessageBox.Show("File NOT saved", "Save File", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void listViewData_Click(object sender, EventArgs e)
         {
             int pos = listViewData.SelectedIndices[0];
@@ -399,7 +401,28 @@ namespace WikiApplication
             }
            
           textBoxDefinition.Text=  wiki[pos].getDefinition();
-            //add message
         }
+
+        private void textBoxName_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(textBoxName, "Double click on the text box to empty all the fields.");
+        }
+        // Verify that the pressed key isn't CTRL or any numeric digit
+        private void textBoxName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetter(e.KeyChar) && e.KeyChar != '-' && e.KeyChar != (char)Keys.Back && e.KeyChar != ' ')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBoxSEARCH_KeyPress(object sender, KeyPressEventArgs e)
+        {
+           if (!char.IsLetter(e.KeyChar) && e.KeyChar != '-' && e.KeyChar != (char)Keys.Back && e.KeyChar != ' ')
+            {
+                e.Handled = true;
+            }
+        }
+        #endregion UTILITIES
     }
 }
